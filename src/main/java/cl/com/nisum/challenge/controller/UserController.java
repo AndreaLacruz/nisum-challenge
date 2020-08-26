@@ -25,7 +25,7 @@ public class UserController {
 
     //USERS
 
-    @PostMapping({"/users", "/users/"}) // http://localhost:8080/users
+    @PostMapping({"/user", "/user/"}) // http://localhost:8080/user
     public ResponseEntity addNewUser(@RequestBody @Valid UserDTO dto) throws URISyntaxException {
         UserDTO saved = userServices.save(dto);
         return ResponseEntity.created(new URI("/users/" + saved.getId())).body(saved);
@@ -67,7 +67,7 @@ public class UserController {
         return ResponseEntity.ok(all);
     }
 
-    @DeleteMapping({"/users/{id}", "/users/{id}/"}) // http://localhost:8080/users/1
+    @DeleteMapping({"/phones/{id}", "/phones/{id}/"}) // http://localhost:8080/phones/1
     public ResponseEntity deletePhone(UUID id){
         phoneServices.delete(id);
         return ResponseEntity.noContent().build();

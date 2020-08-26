@@ -26,7 +26,7 @@ public class Phone implements Serializable {
     @Column(nullable = false, length = 20)
     private Integer countryCode;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "User_id", referencedColumnName = "id")
     private User user;
 
