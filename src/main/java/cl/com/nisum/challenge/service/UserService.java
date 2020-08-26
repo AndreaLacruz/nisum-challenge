@@ -46,7 +46,7 @@ public class UserService {
     public UserDTO save(UserDTO dto){
         UUID phoneId = dto.getPhonesId();
         Phone phone = phoneRepository.findById(phoneId)
-                .orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("CompanyStatus", phoneId));
+                .orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("TypeCategoryCompany", phoneId));
         User userToSave = userMapper.toEntity(dto, context);
         userToSave.setPhones((List<Phone>) phone);
         User userSaved = userRepository.save(userToSave);
