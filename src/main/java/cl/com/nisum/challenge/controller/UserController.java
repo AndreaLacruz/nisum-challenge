@@ -1,5 +1,6 @@
 package cl.com.nisum.challenge.controller;
 
+import cl.com.nisum.challenge.model.dto.PhoneDTO;
 import cl.com.nisum.challenge.model.dto.UserDTO;
 import cl.com.nisum.challenge.service.PhoneService;
 import cl.com.nisum.challenge.service.UserService;
@@ -20,7 +21,7 @@ public class UserController {
     private UserService userServices;
 
     @Autowired
-    private PhoneService phonesServices;
+    private PhoneService phoneServices;
 
     //USERS
 
@@ -53,5 +54,22 @@ public class UserController {
 
     //PHONES
 
+    @PostMapping({"/phone", "/phone/"}) // http://localhost:8080/phone
+    public ResponseEntity addNewPhone(@RequestBody @Valid PhoneDTO dto) throws URISyntaxException {
+        PhoneDTO saved = phoneServices.save(dto);
+        return ResponseEntity.created(new URI("/users/" + saved.getId())).body(saved);
 
+    }
+
+    @GetMapping({"/phones", "/phones/"}) // http://localhost:8080/phones
+    public ResponseEntity getAllPhones(){
+        List<PhoneDTO> all = phoneServices.findAll();
+        return ResponseEntity.ok(all);
+    }
+
+    @DeleteMapping({"/users/{id}", "/users/{id}/"}) // http://localhost:8080/users/1
+    public ResponseEntity deletePhone(UUID id){
+        phoneServices.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

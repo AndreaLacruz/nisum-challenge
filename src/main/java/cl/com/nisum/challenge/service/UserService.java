@@ -8,14 +8,15 @@ import cl.com.nisum.challenge.model.mapper.CycleAvoidingMappingContext;
 import cl.com.nisum.challenge.model.mapper.UserMapper;
 import cl.com.nisum.challenge.model.repository.PhoneRepository;
 import cl.com.nisum.challenge.model.repository.UserRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import javax.transaction.Transactional;
+import java.util.*;
 
-@Service("UserServices")
+@Service("UserService")
 public class UserService {
 
     @Autowired
@@ -32,8 +33,18 @@ public class UserService {
     @Autowired
     private PhoneRepository phoneRepository;
 
+    private String doGenerateToken(String subject) {
+        final Date createdDate = new Date();
+        String base64EncodedSecret = "my-secret-seed";
+        byte[] base64EncodedSecretKey = Base64.getDecoder().decode(base64EncodedSecret);
+
+        return Jwts.builder().setSubject(subject).setIssuedAt(createdDate)
+                .signWith(SignatureAlgorithm.ES512, base64EncodedSecretKey).compact();
+    }
+
+    @Transactional
     public UserDTO save(UserDTO dto){
-        Long phoneId = dto.getPhonesId();
+        UUID phoneId = dto.getPhonesId();
         Phone phone = phoneRepository.findById(phoneId)
                 .orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("CompanyStatus", phoneId));
         User userToSave = userMapper.toEntity(dto, context);

@@ -13,42 +13,40 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service("PhoneService")
 public class PhoneService {
-    @Service("PhonesServices")
-    public class PhonesService {
 
-        @Autowired
+    @Autowired
         private BusinessLogicExceptionComponent logicExceptionComponent;
 
         @Autowired
-        private PhoneRepository phonesRepository;
+        private PhoneRepository phoneRepository;
 
-        private PhoneMapper phonesMapper = PhoneMapper.MAPPER;
+        private PhoneMapper phoneMapper = PhoneMapper.MAPPER;
 
         @Autowired
         private CycleAvoidingMappingContext context;
 
         public PhoneDTO save(PhoneDTO dto) {
-            Phone phoneToSave = phonesMapper.toEntity(dto, context);
-            Phone phoneSaved = phonesRepository.save(phoneToSave);
-            PhoneDTO phoneDTOSaved = phonesMapper.toDto(phoneSaved, context);
+            Phone phoneToSave = phoneMapper.toEntity(dto, context);
+            Phone phoneSaved = phoneRepository.save(phoneToSave);
+            PhoneDTO phoneDTOSaved = phoneMapper.toDto(phoneSaved, context);
             return phoneDTOSaved;
         }
 
         public List<PhoneDTO> findAll() {
-            List<Phone> phones = phonesRepository.findAll();
-            List<PhoneDTO> phonesDTOList = phonesMapper.toDto(phones, context);
-            return phonesDTOList;
+            List<Phone> phones = phoneRepository.findAll();
+            List<PhoneDTO> phoneDTOList = phoneMapper.toDto(phones, context);
+            return phoneDTOList;
         }
 
         public void delete(UUID id) {
-            Optional<Phone> byIdOptional = phonesRepository.findById(id);
+            Optional<Phone> byIdOptional = phoneRepository.findById(id);
             if (byIdOptional.isPresent()) {
                 Phone phonesToDelete = byIdOptional.get();
-                phonesRepository.delete(phonesToDelete);
+                phoneRepository.delete(phonesToDelete);
             } else {
-                logicExceptionComponent.throwExceptionEntityNotFound("Phones", id);
+                logicExceptionComponent.throwExceptionEntityNotFound("Phone", id);
             }
         }
-    }
 }
