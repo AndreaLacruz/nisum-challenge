@@ -12,6 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,9 +37,18 @@ public class UserDTO {
     @NotBlank(message = "name is required")
     private String password;
 
+    //Revisar
     @NotNull(message = "phones_id is required")
-    private Long phonesId;
+    private UUID phonesId;
 
     private List<PhoneDTO> phone;
+
+    private String token;
+
+    private LocalDateTime createAt;
+
+    private LocalDateTime updateAt;
+
+    private LocalDateTime lastLogin;
 
 }

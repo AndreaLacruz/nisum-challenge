@@ -3,10 +3,12 @@ package cl.com.nisum.challenge.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,4 +35,19 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user")
     private List<Phone> phones;
+
+    @Column(nullable = false)
+    private String token;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createAt;
+
+    @CreationTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updateAt;
+
+    @CreationTimestamp
+    @Column(name = "last_login")
+    private LocalDateTime lastLogin;
 }
