@@ -47,6 +47,8 @@ public class UserService {
         UUID phoneId = dto.getPhonesId();
         Phone phone = phoneRepository.findById(phoneId)
                 .orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("TypeCategoryCompany", phoneId));
+        //Revisar
+        User createToken = doGenerateToken(dto.getToken())
         User userToSave = userMapper.toEntity(dto, context);
         userToSave.setPhones((List<Phone>) phone);
         User userSaved = userRepository.save(userToSave);
