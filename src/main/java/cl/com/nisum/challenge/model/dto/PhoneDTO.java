@@ -19,13 +19,13 @@ import javax.validation.constraints.NotNull;
 public class PhoneDTO {
     private Long id;
 
-    @NotNull(message = "name is required")
+    @NotNull(message = "number is required")
     private Integer number;
 
-    @NotNull(message = "name is required")
+    @NotNull(message = "city_code is required")
     private Integer cityCode;
 
-    @NotNull(message = "name is required")
+    @NotNull(message = "country_code is required")
     private Integer countryCode;
 
     private UserDTO user;

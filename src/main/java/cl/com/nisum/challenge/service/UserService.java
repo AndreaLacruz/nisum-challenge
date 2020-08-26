@@ -30,30 +30,36 @@ public class UserService {
 
     private UserMapper userMapper = UserMapper.MAPPER;
 
-    @Autowired
-    private PhoneRepository phoneRepository;
 
     private String doGenerateToken(String subject) {
         final Date createdDate = new Date();
-        String base64EncodedSecret = "my-secret-seed";
+        String base64EncodedSecret = "bXktc2VjcmV0LXNlZWQ=";
         byte[] base64EncodedSecretKey = Base64.getDecoder().decode(base64EncodedSecret);
 
-        return Jwts.builder().setSubject(subject).setIssuedAt(createdDate)
-                .signWith(SignatureAlgorithm.ES512, base64EncodedSecretKey).compact();
+        return Jwts.builder()
+                .setSubject(subject)
+                .setIssuedAt(createdDate)
+                .signWith(SignatureAlgorithm.HS512, base64EncodedSecretKey)
+                .compact();
     }
 
     @Transactional
-    public UserDTO save(UserDTO dto){
-        UUID phoneId = dto.getPhonesId();
-        Phone phone = phoneRepository.findById(phoneId)
-                .orElseThrow(() -> logicExceptionComponent.throwExceptionEntityNotFound("TypeCategoryCompany", phoneId));
-        //Revisar
-        User createToken = doGenerateToken(dto.getToken())
+    public UserDTO save(UserDTO dto) {
+        userRepository.findByEmail(dto.getEmail())
+                .ifPresent(user -> {
+                    throw logicExceptionComponent.getExceptionEmailUserAlreadyExists(user.getEmail());
+                });
+
+        String jwtToken = doGenerateToken(dto.getEmail());
+        dto.setToken(jwtToken);
+
+        dto.getPhones()
+                .stream()
+                .forEach(phoneDTO -> phoneDTO.setUser(dto));
+
         User userToSave = userMapper.toEntity(dto, context);
-        userToSave.setPhones((List<Phone>) phone);
         User userSaved = userRepository.save(userToSave);
-        UserDTO userDTOSaved = userMapper.toDto(userSaved, context);
-        return userDTOSaved;
+        return userMapper.toDto(userSaved, context);
     }
 
     public List<UserDTO> findAll(){
@@ -62,14 +68,11 @@ public class UserService {
         return userDTOList;
     }
 
-    public void delete(UUID id){
-        Optional<User> byIdOptional = userRepository.findById(id);
-        if (byIdOptional.isPresent()){
-            User userToDelete = byIdOptional.get();
-            userRepository.delete(userToDelete);
-        }else {
-            logicExceptionComponent.throwExceptionEntityNotFound("User", id);
-        }
+    public void delete(UUID id) {
+        User userToDelete = userRepository
+                .findById(id)
+                .orElseThrow(() -> logicExceptionComponent.getExceptionEntityNotFound("User", id));
+        userRepository.delete(userToDelete);
     }
 
     public UserDTO update(UserDTO dto, UUID id){

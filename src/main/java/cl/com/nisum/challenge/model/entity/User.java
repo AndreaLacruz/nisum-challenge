@@ -33,9 +33,8 @@ public class User implements Serializable {
     @Column(nullable = false, length = 30)
     private String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Phone> phones;
-
     @Column(nullable = false)
     private String token;
 

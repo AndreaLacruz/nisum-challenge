@@ -24,5 +24,32 @@ public class BusinessLogicExceptionComponent {
         );
     }
 
+    public RuntimeException getExceptionEntityNotFound(String entityName, UUID id){
+        ApiEntityError apiEntityError = new ApiEntityError(
+                entityName,
+                "NotFound",
+                "The" + entityName + "with id" + id + "does not exist"
+        );
+
+        return new BusinessLogicException(
+                entityName + "does not exist",
+                HttpStatus.NOT_FOUND,
+                apiEntityError
+        );
+    }
+
+    public RuntimeException getExceptionEmailUserAlreadyExists(String email) {
+        ApiEntityError apiEntityError = new ApiEntityError(
+                "User",
+                "EamilUserAlreadyExists",
+                "email already exists " + email
+        );
+        return new BusinessLogicException(
+                "email user already exists",
+                HttpStatus.BAD_REQUEST,
+                apiEntityError
+        );
+    }
+
 }
 
