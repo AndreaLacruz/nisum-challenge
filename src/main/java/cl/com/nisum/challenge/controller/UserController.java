@@ -25,7 +25,7 @@ public class UserController {
 
     //USERS
 
-    @PostMapping({"/users", "/users/"}) // http://localhost:8080/users
+    @PostMapping({"/user", "/user/"}) // http://localhost:8080/user
     public ResponseEntity addNewUser(@RequestBody @Valid UserDTO dto) throws URISyntaxException {
         UserDTO saved = userServices.save(dto);
         return ResponseEntity.created(new URI("/users/" + saved.getId())).body(saved);
