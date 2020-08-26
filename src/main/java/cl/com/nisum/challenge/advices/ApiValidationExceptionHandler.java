@@ -1,8 +1,7 @@
 package cl.com.nisum.challenge.advices;
 
-;
-import ar.com.ada.sb.unittest.exception.ApiErrorsResponseBody;
-import ar.com.ada.sb.unittest.exception.ApiFieldError;
+import cl.com.nisum.challenge.exception.ApiErrorsResponseBody;
+import cl.com.nisum.challenge.exception.ApiFieldError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

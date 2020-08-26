@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,5 +31,5 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "Phones_id")
-    private Phones phone;
+    private List<Phones> phone;
 }
