@@ -3,17 +3,15 @@ package cl.com.nisum.challenge.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "phones")
-public class Phones {
+@Entity(name = "Phone")
+public class Phone implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +26,8 @@ public class Phones {
     @Column(nullable = false, length = 20)
     private Integer countryCode;
 
-    @OneToMany(mappedBy = "phones")
-    private Set<User> user;
+    @ManyToOne()
+    @JoinColumn(name = "User_id", referencedColumnName = "id")
+    private User user;
+
 }

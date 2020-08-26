@@ -5,10 +5,12 @@ import cl.com.nisum.challenge.exception.BusinessLogicException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component("businessLogicExceptionComponent")
 public class BusinessLogicExceptionComponent {
 
-    public void throwExceptionEntityNotFound(String entityName, Long id){
+    public void throwExceptionEntityNotFound(String entityName, UUID id){
         ApiEntityError apiEntityError = new ApiEntityError(
                 entityName,
                 "NotFound",
