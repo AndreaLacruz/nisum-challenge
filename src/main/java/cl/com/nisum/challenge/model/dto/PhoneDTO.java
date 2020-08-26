@@ -1,7 +1,5 @@
 package cl.com.nisum.challenge.model.dto;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -11,16 +9,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-@JsonPropertyOrder({"id", "number", "cityCode", "countryCode"})
-public class PhonesDTO implements Serializable {
-
+@JsonPropertyOrder({ "id", "number", "city_code", "country_code" })
+public class PhoneDTO {
     private Long id;
 
     @NotNull(message = "name is required")
@@ -32,6 +28,5 @@ public class PhonesDTO implements Serializable {
     @NotNull(message = "name is required")
     private Integer countryCode;
 
-    private Set<UserDTO> user;
-
+    private UserDTO user;
 }

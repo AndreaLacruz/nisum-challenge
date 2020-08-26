@@ -3,33 +3,34 @@ package cl.com.nisum.challenge.model.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import org.springframework.data.annotation.Id;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "user")
-public class User {
+@Entity(name = "User")
+public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
-    @Column(name = "name", nullable = false, length = 30)
+    @Column(nullable = false, length = 30)
     private String name;
 
     @Column(nullable = false, length = 100, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 30)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "Phones_id")
-    private List<Phones> phone;
+    @OneToMany(mappedBy = "user")
+    private List<Phone> phones;
 }
