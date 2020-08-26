@@ -1,7 +1,7 @@
 package cl.com.nisum.challenge.components;
 
-import ar.com.ada.sb.unittest.exception.ApiEntityError;
-import ar.com.ada.sb.unittest.exception.BusinessLogicException;
+import cl.com.nisum.challenge.exception.ApiEntityError;
+import cl.com.nisum.challenge.exception.BusinessLogicException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 

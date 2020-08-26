@@ -1,8 +1,8 @@
 package cl.com.nisum.challenge.advices;
 
-import ar.com.ada.sb.unittest.exception.ApiEntityError;
-import ar.com.ada.sb.unittest.exception.ApiErrorsResponseBody;
-import ar.com.ada.sb.unittest.exception.BusinessLogicException;
+import cl.com.nisum.challenge.exception.ApiEntityError;
+import cl.com.nisum.challenge.exception.ApiErrorsResponseBody;
+import cl.com.nisum.challenge.exception.BusinessLogicException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
